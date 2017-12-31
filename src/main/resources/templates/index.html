@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="~{fragments/header :: header}">
+</header>
+<body>
+<div th:replace="~{fragments/navigator :: navigator}">navigator</div>
+
+<!-- show success or error messages -->
+<div th:if="${message}">
+    <h2 th:text="${message}"></h2>
+</div>
+
+<!-- form to upload files -->
+<div>
+    <form method="POST" enctype="multipart/form-data" action="/">
+        <table>
+            <tr>
+                <td>File to upload:</td>
+                <td><input type="file" name="file"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Upload"></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<!-- display the stored files -->
+<div>
+    <table border="1">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>ID</td>
+            <td>Content Type</td>
+            <td>Size</td>
+            <td>Upload Date</td>
+            <td>MD5</td>
+            <td colspan="2">Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${files.size()} eq 0">
+            <td colspan="8">no file found in database!</td>
+        </tr>
+        <tr th:each="file : ${files}">
+            <td th:text="${file.name}"></td>
+            <td th:text="${file.id}"></td>
+            <td th:text="${file.contentType}"></td>
+            <td th:text="${file.size}"></td>
+            <td th:text="${file.uploadDate}"></td>
+            <td th:text="${file.md5}"></td>
+            <td><a th:href="'view/'+${file.id}" />view</td>
+            <td><a th:href="'file/'+${file.id}" />download</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}">footer</div>
+</body>
+</html>

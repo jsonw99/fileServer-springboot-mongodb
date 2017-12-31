@@ -21,11 +21,11 @@ public class File {
     public File() {
     }
 
-    public File(String name, String contentType, long size, Date uploadDate, byte[] content) {
+    public File(String name, String contentType, long size, byte[] content) {
         this.name = name;
         this.contentType = contentType;
         this.size = size;
-        this.uploadDate = uploadDate;
+        this.uploadDate = new Date();
         this.content = content;
     }
 

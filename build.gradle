@@ -1,7 +1,7 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.9.RELEASE'
-	}
+    ext {
+        springBootVersion = '1.5.9.RELEASE'
+    }
 
     // customize the version of Thymeleaf and Thymeleaf Layout Dialect
     ext['thymeleaf.version'] = '3.0.3.RELEASE'
@@ -9,12 +9,12 @@ buildscript {
     // customize the version for Embedded MongoDB
     ext['embedded-mongo.version'] = '2.0.0'
 
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 apply plugin: 'java'
@@ -26,14 +26,17 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    // use the embed mongodb for development or testing.
+    // remove following dependency if using independent mongodb server or trying to deploy the project online.
+    // compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    compile("org.springframework.boot:spring-boot-devtools")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

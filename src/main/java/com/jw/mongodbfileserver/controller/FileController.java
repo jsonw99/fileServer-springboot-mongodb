@@ -97,26 +97,51 @@ public class FileController {
         }
     }
 
+//    /**
+//     * upload the file to mongodb.
+//     * @param file
+//     * @param redirectAttributes
+//     * @return
+//     */
+//    @PostMapping("/upload")
+//    public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+//        try {
+//            File f = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());
+//            f.setMd5(MD5Util.getMD5(file.getInputStream()));
+//            fileService.saveFile(f);
+//        } catch (IOException |NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            redirectAttributes.addFlashAttribute("message", "Your " + file.getOriginalFilename() + " is wrong!");
+//            return "redirect:/";
+//        }
+//
+//        redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
+//
+//        return "redirect:/";
+//    }
+
     /**
-     * upload the file to mongodb.
+     * upload the file to mongodb, and return file url.
      * @param file
-     * @param redirectAttributes
      * @return
      */
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        File returnFile = null;
         try {
-            File f = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());
+            File f = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(),file.getBytes());
             f.setMd5(MD5Util.getMD5(file.getInputStream()));
-            fileService.saveFile(f);
-        } catch (IOException |NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("message", "Your " + file.getOriginalFilename() + " is wrong!");
-            return "redirect:/";
+            returnFile = fileService.saveFile(f);
+            returnFile.setPath("http://" + serverAddress +":" + serverPort + "/file/"+f.getId());
+            returnFile.setContent(null) ;
+            return ResponseEntity.status(HttpStatus.OK).body(returnFile.getPath());
+
+        } catch (IOException | NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
         }
 
-        redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
-        return "redirect:/";
     }
 
     /**

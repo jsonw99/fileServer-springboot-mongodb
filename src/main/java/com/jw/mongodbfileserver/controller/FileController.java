@@ -103,7 +103,7 @@ public class FileController {
      * @param redirectAttributes
      * @return
      */
-    @PostMapping("/")
+    @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         try {
             File f = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(), file.getBytes());

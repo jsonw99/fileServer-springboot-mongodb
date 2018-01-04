@@ -36,7 +36,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     // use the embed mongodb for development or testing.
     // remove following dependency if using independent mongodb server or trying to deploy the project online.
-    // compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
     compile("org.springframework.boot:spring-boot-devtools")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
